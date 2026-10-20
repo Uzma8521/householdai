@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HouseholdAI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f3f5ff;
+    color: #222844;
+}
+
+header {
+    background: white;
+    padding: 20px;
+    border-bottom: 1px solid #e7e8f5;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: bold;
+    color: #6255d9;
+}
+
+.brand span {
+    color: #19a995;
+}
+
+main {
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 20px;
+}
+
+.hero {
+    background: linear-gradient(120deg, #6255d9, #9586f5);
+    color: white;
+    padding: 35px;
+    border-radius: 22px;
+}
+
+.hero h1 {
+    font-size: 32px;
+}
+
+button {
+    background: #19a995;
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #128b7c;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    margin-top: 22px;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 18px;
+    border: 1px solid #d9dcef;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #137547;
+}
+</style>
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+  margin: 0;
+  padding: 24px;
+}
+
+h1 {
+  color: #ffffff;
+  background: linear-gradient(120deg, #14532d, #16a34a);
+  padding: 30px 20px;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 36px;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.18);
+}
+
+h2 {
+  color: #166534;
+}
+
+button {
+  font-family: inherit;
+  font-weight: 600;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+button:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+input, select, textarea {
+  font-family: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid #86efac;
+  border-color: #16a34a;
+}
+/* HouseholdAI modern card design */
+body {
+  background: #f1f5f9;
+  color: #1e293b;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body > div {
+  box-sizing: border-box;
+}
+
+body div[style*="border-radius"] {
+  box-shadow: 0 6px 22px rgba(15, 23, 42, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+body div[style*="border-radius"]:hover {
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+h2 {
+  font-size: 23px;
+  letter-spacing: -0.3px;
+}
+
+input, select, textarea {
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 9px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">⌂ Household<span>AI</span></div>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Welcome to HouseholdAI! ⚡</h1>
+        <p>Make your home energy smarter.</p>
+        <p>Understand your electricity usage, estimate bills and discover ways to save money.</p>
+        <button onclick="showCalculator()">Get Started</button>
+    </section>
+
+    <section class="panel" id="calculator">
+        <h2>⚡ Electricity Bill Calculator</h2>
+        <p>Enter your monthly electricity consumption.</p>
+
+        <label for="units">Electricity units used (kWh)</label>
+        <input type="number" id="units" min="0" placeholder="Example: 250">
+
+        <label for="rate">Cost per unit (₹)</label>
+        <input type="number" id="rate" min="0" value="7">
+
+        <button onclick="calculateBill()">Calculate My Bill</button>
+
+        <div id="result"></div>
+    </section>
+</main>
+
+<script>
+function showCalculator() {
+    document.getElementById("calculator").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function calculateBill() {
+    const units = document.getElementById("units").value;
+    const rate = document.getElementById("rate").value;
+    const result = document.getElementById("result");
+
+    if (units === "" || rate === "" ||
+        Number(units) < 0 || Number(rate) < 0) {
+        result.textContent = "Please enter valid electricity details.";
+        return;
+    }
+
+    const bill = Number(units) * Number(rate);
+
+    result.textContent =
+        "Your estimated electricity bill is ₹" +
+        bill.toLocaleString("en-IN", {
+            maximumFractionDigits: 2
+        });
+}
+</script>
+
+
+<section style="background:#f0eaff;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#6336b5;">🔮 HouseholdAI Bill Prediction</h2>
+  <p>Estimate next month's electricity bill using your previous month's usage.</p>
+
+  <label>Previous month's units (kWh):</label><br>
+  <input id="previousUnits" type="number" min="0" placeholder="Example: 200"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Expected usage increase or decrease (%):</label><br>
+  <input id="usageChange" type="number" value="0" min="-100"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Electricity rate per unit (₹):</label><br>
+  <input id="predictionRate" type="number" min="0" value="7"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <button onclick="predictBill()"
+    style="background:#6336b5;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Predict My Bill
+  </button>
+
+  <div id="predictionResult" style="margin-top:18px;font-weight:bold;color:#3d2676;"></div>
+</section>
+
+<script>
+function predictBill() {
+  const unitsInput = document.getElementById('previousUnits').value;
+  const units = Number(unitsInput);
+  const change = Number(document.getElementById('usageChange').value);
+  const rate = Number(document.getElementById('predictionRate').value);
+  const result = document.getElementById('predictionResult');
+
+  if (unitsInput === '' || units < 0 || change < -100 || rate < 0) {
+    result.textContent = 'Please enter valid values.';
+    return;
+  }
+
+  const predictedUnits = units * (1 + change / 100);
+  const bill = predictedUnits * rate;
+
+  result.innerHTML =
+    'Predicted usage: ' + predictedUnits.toFixed(1) + ' units<br>' +
+    'Estimated electricity bill: ₹' + bill.toFixed(2) +
+    '<br><small>Estimate only; actual bills may include additional charges.</small>';
+}
+</script>
+
+<section style="background:#e6fff2;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#087f5b;">🌱 Smart Electricity-Saving Tips</h2>
+  <p>Tell HouseholdAI how many hours you use an appliance each day.</p>
+
+  <label>Choose an appliance:</label><br>
+  <select id="appliance" style="padding:10px;margin:10px 0;width:95%;">
+    <option value="75">Ceiling fan (75 W)</option>
+    <option value="60">LED TV (60 W)</option>
+    <option value="9">LED bulb (9 W)</option>
+    <option value="1000">Air conditioner (1000 W)</option>
+    <option value="500">Refrigerator (500 W average input)</option>
+  </select><br>
+
+  <label>Hours used per day:</label><br>
+  <input id="hoursUsed" type="number" min="0" max="24" value="5"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Possible hours to reduce per day:</label><br>
+  <input id="hoursReduced" type="number" min="0" max="24" value="1"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Electricity rate per unit (₹):</label><br>
+  <input id="savingRate" type="number" min="0" value="7"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <button onclick="calculateSavings()"
+    style="background:#087f5b;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Find My Savings
+  </button>
+
+  <div id="savingResult" style="margin-top:18px;font-weight:bold;color:#075c45;"></div>
+</section>
+
+<script>
+function calculateSavings() {
+  const watts = Number(document.getElementById('appliance').value);
+  const hours = Number(document.getElementById('hoursUsed').value);
+  const reduce = Number(document.getElementById('hoursReduced').value);
+  const rate = Number(document.getElementById('savingRate').value);
+  const result = document.getElementById('savingResult');
+
+  if (hours < 0 || hours > 24 || reduce < 0 ||
+      reduce > hours || rate < 0) {
+    result.textContent =
+      'Please enter valid values. Reduced hours cannot exceed daily usage.';
+    return;
+  }
+
+  const dailyUnits = watts * hours / 1000;
+  const savedUnits = watts * reduce * 30 / 1000;
+  const savedRupees = savedUnits * rate;
+
+  result.innerHTML =
+    'Estimated daily usage: ' + dailyUnits.toFixed(2) + ' units<br>' +
+    'Possible monthly savings: ' + savedUnits.toFixed(2) + ' units<br>' +
+    'Possible monthly bill savings: ₹' + savedRupees.toFixed(2) +
+    '<br><small>Illustrative estimate for 30 days. Actual usage and bills may vary.</small>';
+}
+</script>
+
+<section style="background:#fff4d9;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#9a5b00;">💡 Smart Household Recommendations</h2>
+  <p>Answer a few questions to receive personalized electricity-saving ideas.</p>
+
+  <label>Which appliance do you use most?</label><br>
+  <select id="mainAppliance" style="padding:10px;margin:10px 0;width:95%;">
+    <option value="ac">Air conditioner</option>
+    <option value="fan">Fans</option>
+    <option value="lights">Lights</option>
+    <option value="fridge">Refrigerator</option>
+    <option value="mixed">Many appliances</option>
+  </select><br>
+
+  <label>When is electricity usage highest?</label><br>
+  <select id="peakTime" style="padding:10px;margin:10px 0;width:95%;">
+    <option value="day">Daytime</option>
+    <option value="evening">Evening</option>
+    <option value="night">Night</option>
+    <option value="all">Throughout the day</option>
+  </select><br>
+
+  <label>What is your main goal?</label><br>
+  <select id="savingGoal" style="padding:10px;margin:10px 0;width:95%;">
+    <option value="bill">Reduce my electricity bill</option>
+    <option value="energy">Use less electricity</option>
+    <option value="habits">Build better habits</option>
+  </select><br>
+
+  <button onclick="getRecommendations()"
+    style="background:#9a5b00;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Get My Recommendations
+  </button>
+
+  <div id="recommendationResult" style="margin-top:18px;line-height:1.8;color:#704300;"></div>
+</section>
+
+<script>
+function getRecommendations() {
+  const appliance = document.getElementById('mainAppliance').value;
+  const time = document.getElementById('peakTime').value;
+  const goal = document.getElementById('savingGoal').value;
+  const tips = [];
+
+  if (appliance === 'ac') {
+    tips.push('Set the AC to a comfortable temperature, around 24–26°C.');
+    tips.push('Keep doors and windows closed while the AC is running.');
+  } else if (appliance === 'fan') {
+    tips.push('Switch off fans when rooms are empty.');
+    tips.push('Clean fan blades regularly to keep them dust-free.');
+  } else if (appliance === 'lights') {
+    tips.push('Use LED bulbs and switch off lights in empty rooms.');
+    tips.push('Use daylight whenever practical.');
+  } else if (appliance === 'fridge') {
+    tips.push('Avoid opening the refrigerator door unnecessarily.');
+    tips.push('Check that the refrigerator door seals close properly.');
+  } else {
+    tips.push('Switch off unused appliances instead of leaving them on.');
+    tips.push('Choose energy-efficient appliances when replacing old ones.');
+  }
+
+  if (time === 'day') {
+    tips.push('Use natural daylight when possible.');
+  } else if (time === 'evening') {
+    tips.push('Avoid running several high-power appliances at the same time when practical.');
+  } else if (time === 'night') {
+    tips.push('Switch off unnecessary lights and electronics before sleeping.');
+  } else {
+    tips.push('Check which appliances are running unnecessarily throughout the day.');
+  }
+
+  if (goal === 'bill') {
+    tips.push('Compare your monthly electricity bills to identify changes in usage.');
+  } else if (goal === 'energy') {
+    tips.push('Track your electricity units every month and aim to reduce unnecessary use.');
+  } else {
+    tips.push('Create a family habit of checking lights and appliances before leaving a room.');
+  }
+
+  document.getElementById('recommendationResult').innerHTML =
+    '<strong>Your HouseholdAI recommendations:</strong><ul>' +
+    tips.map(tip => '<li>' + tip + '</li>').join('') +
+    '</ul><small>These are rule-based suggestions, not advice generated by a trained AI model.</small>';
+}
+</script>
+
+<section style="background:#e8f4ff;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#1558a6;">📊 Monthly Electricity Bill History</h2>
+  <p>Record your bills and compare your household electricity expenses.</p>
+
+  <label>Month:</label><br>
+  <input id="historyMonth" type="month"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Electricity units used:</label><br>
+  <input id="historyUnits" type="number" min="0" placeholder="Example: 250"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Bill amount (₹):</label><br>
+  <input id="historyBill" type="number" min="0" step="0.01" placeholder="Example: 1750"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <button onclick="addBillHistory()"
+    style="background:#1558a6;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Save Monthly Bill
+  </button>
+
+  <div id="historyMessage" style="margin-top:12px;font-weight:bold;"></div>
+  <div id="historyList" style="margin-top:18px;"></div>
+</section>
+
+<script>
+
+let householdBills = JSON.parse(localStorage.getItem('householdBills') || '[]');
+
+function addBillHistory() {
+  const month = document.getElementById('historyMonth').value;
+  const unitsValue = document.getElementById('historyUnits').value;
+  const billValue = document.getElementById('historyBill').value;
+  const message = document.getElementById('historyMessage');
+
+  if (!month || unitsValue === '' || billValue === '' ||
+      Number(unitsValue) < 0 || Number(billValue) < 0) {
+    message.textContent = 'Please enter a month, valid units, and bill amount.';
+    return;
+  }
+
+  const existing = householdBills.findIndex(item => item.month === month);
+  const entry = {
+    month: month,
+    units: Number(unitsValue),
+    bill: Number(billValue)
+  };
+
+  if (existing >= 0) {
+    householdBills[existing] = entry;
+  } else {
+    householdBills.push(entry);
+  }
+
+  householdBills.sort((a, b) => a.month.localeCompare(b.month));
+localStorage.setItem('householdBills', JSON.stringify(householdBills));
+
+  message.textContent = 'Monthly bill saved for this session!';
+  document.getElementById('historyUnits').value = '';
+  document.getElementById('historyBill').value = '';
+  displayBillHistory();
+}
+
+function displayBillHistory() {
+  const list = document.getElementById('historyList');
+
+  list.innerHTML = '<h3>Your recorded bills</h3>' +
+    '<p><strong>Month | Units | Bill amount</strong></p>' +
+    householdBills.map(item =>
+      '<p>' + item.month + ' | ' + item.units + ' units | ₹' +
+      item.bill.toFixed(2) + '</p>'
+    ).join('') +
+    '<p><strong>Total recorded bills: ₹' +
+    householdBills.reduce((sum, item) => sum + item.bill, 0).toFixed(2) +
+    '</strong></p>';
+}
+displayBillHistory();
+</script>
+
+<section style="background:#fce7f3;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#9d174d;">📈 Electricity Usage Comparison</h2>
+  <p>Compare electricity usage between two months.</p>
+
+  <label>First month — units used:</label><br>
+  <input id="compareUnits1" type="number" min="0" placeholder="Example: 200"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Second month — units used:</label><br>
+  <input id="compareUnits2" type="number" min="0" placeholder="Example: 250"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <button onclick="compareUsage()"
+    style="background:#9d174d;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Compare Usage
+  </button>
+
+  <div id="compareResult" style="margin-top:18px;font-weight:bold;line-height:1.8;"></div>
+</section>
+
+<script>
+function compareUsage() {
+  const firstInput = document.getElementById('compareUnits1').value;
+  const secondInput = document.getElementById('compareUnits2').value;
+  const result = document.getElementById('compareResult');
+
+  if (firstInput === '' || secondInput === '' ||
+      Number(firstInput) < 0 || Number(secondInput) < 0) {
+    result.textContent = 'Please enter valid units for both months.';
+    return;
+  }
+
+  const first = Number(firstInput);
+  const second = Number(secondInput);
+  const difference = second - first;
+
+  let message = '';
+
+  if (difference > 0) {
+    message = '⚠️ Your usage increased by ' + difference +
+      ' units (' + (first === 0 ? 'percentage unavailable' :
+      (difference / first * 100).toFixed(1) + '%') + ').';
+  } else if (difference < 0) {
+    message = '🌱 Great! Your usage decreased by ' +
+      Math.abs(difference) + ' units (' +
+      (first === 0 ? 'percentage unavailable' :
+      (Math.abs(difference) / first * 100).toFixed(1) + '%') + ').';
+  } else {
+    message = '✅ Your electricity usage stayed the same.';
+  }
+
+  result.innerHTML =
+    'First month: ' + first + ' units<br>' +
+    'Second month: ' + second + ' units<br>' +
+    message;
+}
+</script>
+
+<section style="background:#ede9fe;padding:25px;border-radius:18px;margin:25px 0;font-family:Arial;">
+  <h2 style="color:#5b21b6;">🧾 HouseholdAI Report</h2>
+  <p>Generate a simple electricity report to download for your records.</p>
+
+  <label>Your household name (optional):</label><br>
+  <input id="reportHousehold" type="text" placeholder="Example: My Home"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Monthly electricity units:</label><br>
+  <input id="reportUnits" type="number" min="0" placeholder="Example: 250"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <label>Bill amount (₹):</label><br>
+  <input id="reportBill" type="number" min="0" step="0.01" placeholder="Example: 1750"
+    style="padding:10px;margin:10px 0;width:90%;"><br>
+
+  <button onclick="downloadHouseholdReport()"
+    style="background:#5b21b6;color:white;padding:12px 20px;border:0;border-radius:10px;cursor:pointer;">
+    Download My Report
+  </button>
+
+  <div id="reportMessage" style="margin-top:15px;font-weight:bold;"></div>
+</section>
+
+<script>
+function downloadHouseholdReport() {
+  const name = document.getElementById('reportHousehold').value.trim() || 'My Household';
+  const unitsText = document.getElementById('reportUnits').value;
+  const billText = document.getElementById('reportBill').value;
+  const message = document.getElementById('reportMessage');
+
+  if (unitsText === '' || billText === '' ||
+      Number(unitsText) < 0 || Number(billText) < 0) {
+    message.textContent = 'Please enter valid units and bill amount.';
+    return;
+  }
+
+  const report =
+    'HOUSEHOLDAI - ELECTRICITY REPORT\n' +
+    '--------------------------------\n' +
+    'Household: ' + name + '\n' +
+    'Electricity units: ' + Number(unitsText) + '\n' +
+    'Bill amount: Rs. ' + Number(billText).toFixed(2) + '\n' +
+    'Report generated: ' + new Date().toLocaleDateString() + '\n\n' +
+    'Note: This report uses the details entered by the user.\n';
+
+  const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'HouseholdAI_Electricity_Report.txt';
+  link.click();
+  URL.revokeObjectURL(url);
+
+  message.textContent = 'Your report download has been requested!';
+}
+</script>
+<!-- HouseholdAI Energy Score -->
+<div style="background:linear-gradient(135deg,#ffffff,#dcfce7);padding:28px;margin:24px 0;border:1px solid #86efac;border-radius:20px;font-family:'Segoe UI',Arial,sans-serif;box-shadow:0 8px 24px rgba(22,101,52,0.12);">padding:20px;margin:20px 0;border-radius:15px;font-family:Arial,sans-serif;">
+  <h2 style="color:#166534;">⚡ Smart Energy Score</h2>
+  <p>Compare this month's electricity usage with last month's usage.</p>
+
+  <label>Last month's usage (units):</label>
+  <input id="oldEnergyUnits" type="number" min="0" placeholder="e.g. 250"
+    style="padding:10px;width:90%;margin:8px 0;">
+
+  <label>This month's usage (units):</label>
+  <input id="newEnergyUnits" type="number" min="0" placeholder="e.g. 200"
+    style="padding:10px;width:90%;margin:8px 0;">
+
+  <button onclick="calculateEnergyScore()"
+    style="background:#15803d;color:white;padding:11px 18px;border:0;border-radius:8px;cursor:pointer;">
+    Calculate My Score
+  </button>
+
+  <div id="energyScoreResult" style="margin-top:15px;font-size:17px;font-weight:bold;"></div>
+</div>
+
+<script>
+function calculateEnergyScore() {
+  const oldUnits = Number(document.getElementById('oldEnergyUnits').value);
+  const newUnits = Number(document.getElementById('newEnergyUnits').value);
+  const result = document.getElementById('energyScoreResult');
+
+  if (
+    document.getElementById('oldEnergyUnits').value === '' ||
+    document.getElementById('newEnergyUnits').value === '' ||
+    oldUnits < 0 || newUnits < 0
+  ) {
+    result.textContent = 'Please enter valid usage values.';
+    return;
+  }
+
+  let score;
+
+  if (oldUnits === 0 && newUnits === 0) {
+    score = 100;
+  } else if (oldUnits === 0) {
+    score = 50;
+  } else {
+    const change = (oldUnits - newUnits) / oldUnits;
+    score = Math.round(Math.max(0, Math.min(100, 70 + change * 100)));
+  }
+
+  let message;
+
+  if (newUnits < oldUnits) {
+    message = 'Great! Your electricity usage has decreased.';
+  } else if (newUnits > oldUnits) {
+    message = 'Your usage increased. Look for ways to save electricity.';
+  } else {
+    message = 'Your electricity usage stayed the same.';
+  }
+
+  result.innerHTML =
+    'Your Energy Awareness Score: ' + score + '/100<br><br>' + message +
+    '<br><small>This is an illustrative score based on usage change, not a validated efficiency rating.</small>';
+}
+</script>
+</body>
+</html>
